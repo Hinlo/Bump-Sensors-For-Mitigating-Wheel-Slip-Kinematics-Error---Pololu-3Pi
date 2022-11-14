@@ -9,16 +9,20 @@
 
 # define NumberOfSensors 2       // Number of sensors in use
 
-class bumpSensor {
+class bumpSensor_c {
   public:
 
   int bumpPin[NumberOfSensors];          
   float bumpReading[NumberOfSensors];
+  float force_guess;
+  // float force_guess;
 
-  bumpSensor (){        //    Default Constructor
+  bumpSensor_c (){        //    Default Constructor
   bumpPin[0] = Left_BUMP;     // Initialise element 0 to left bumper pin
   bumpPin[1] = Right_BUMP;    // Initialise element 1 to right bumper pin
   }
+
+
 
 
 void initialise(){
@@ -101,12 +105,23 @@ void chargeCapacitors(){
 }
 
 void displayReadings(){       // Cycles through the array filled with the sensor readings
-    for (int i = 0; i < NumberOfSensors; i++){        // prints the value followed by a ','
-    Serial.print(bumpReading[i]);
-    Serial.print(", ");
+    Serial.print("y max: ");
+    Serial.println(2);
+    Serial.print("y min: ");
+    Serial.println(0);
+    // Serial.print("bump sensor left: ");
+    // Serial.println(bumpReading[0]);
+    // Serial.print("bump sensor right: ");
+    // Serial.println(bumpReading[1]);
+
+    force_guess = (bumpReading[0]+ bumpReading[1])/1000;
+
+    Serial.print("Impact Force: ");
+    Serial.println(force_guess);
+
     
-    }
-  Serial.print("\n");
+    
+
   //unsigned long elapsed_time;                         
   //unsigned long end_time = micros();
   //elapsed_time = end_time - start_time;
@@ -119,4 +134,3 @@ void displayReadings(){       // Cycles through the array filled with the sensor
 }; //End of class
 
 #endif  _bump_H_
-
