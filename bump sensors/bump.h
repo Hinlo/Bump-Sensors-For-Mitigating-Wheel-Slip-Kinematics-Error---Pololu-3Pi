@@ -134,4 +134,3 @@ void displayReadings(){       // Cycles through the array filled with the sensor
 }; //End of class
 
 #endif  _bump_H_
-

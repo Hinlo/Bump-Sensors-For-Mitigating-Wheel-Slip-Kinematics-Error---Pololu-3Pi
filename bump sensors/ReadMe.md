@@ -14,3 +14,5 @@ than the force to start pushing it.
 - Of course, we could just use motor pwm to set a demand speed on the wheels, but the aim is to use the force from pushing and impact. Therefore, we need to implement a
 proper force calculation which can provide us a mass estimate of the object, then set a desired push force based on the object mass that will push steadily, perhaps using
 reinforcement from the bump sensors.
+
+
