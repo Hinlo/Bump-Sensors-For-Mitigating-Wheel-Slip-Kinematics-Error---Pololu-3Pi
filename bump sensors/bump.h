@@ -14,7 +14,7 @@ class bumpSensor_c {
 
   int bumpPin[NumberOfSensors];          
   float bumpReading[NumberOfSensors];
-  float force_guess;
+  float force_calc;
   // float force_guess;
 
   bumpSensor_c (){        //    Default Constructor
@@ -106,7 +106,7 @@ void chargeCapacitors(){
 
 void displayReadings(){       // Cycles through the array filled with the sensor readings
     Serial.print("y max: ");
-    Serial.println(2);
+    Serial.println(1);
     Serial.print("y min: ");
     Serial.println(0);
     // Serial.print("bump sensor left: ");
@@ -114,13 +114,25 @@ void displayReadings(){       // Cycles through the array filled with the sensor
     // Serial.print("bump sensor right: ");
     // Serial.println(bumpReading[1]);
 
-    force_guess = (bumpReading[0]+ bumpReading[1])/1000;
+    float bump_average = ((bumpReading[0]+ bumpReading[1])/2) * pow(10, -6) - 6.4*pow(10, -4); // take average and convert to seconds from microseconds. and calibrate to zero by subtracting the average background reading.
+
+    // model bump sensors as a spring. Therefore, F = -kx.
+    // So long as discharge time is proportional to bump sensor displacement,
+    // F = -ct, where c is a new constant, t is average discharge time of the two sensors.
+    // How can we verify x is prop to t? It appears to be on the graph.
+    // We can figure out c experimentally by using a known mass that is barely pushed.
+    // Force on the mass will be equal and opp (N3), therefore = F.
+
+    // calculation notes in book.
+    float experimental_coefficient = 1700; // kgms^-3
+    force_calc =  experimental_coefficient * bump_average;
+
 
     Serial.print("Impact Force: ");
-    Serial.println(force_guess);
+    Serial.println(force_calc);
 
     
-    
+    // next need to 
 
   //unsigned long elapsed_time;                         
   //unsigned long end_time = micros();
@@ -134,3 +146,4 @@ void displayReadings(){       // Cycles through the array filled with the sensor
 }; //End of class
 
 #endif  _bump_H_
+
