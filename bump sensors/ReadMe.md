@@ -15,5 +15,5 @@ than the force to start pushing it.
 proper force calculation which can provide us a mass estimate of the object, then set a desired push force based on the object mass that will push steadily, perhaps using
 reinforcement from the bump sensors.
 
-a change
+
 
