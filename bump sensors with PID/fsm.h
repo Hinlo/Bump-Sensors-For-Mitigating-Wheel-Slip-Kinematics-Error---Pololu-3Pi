@@ -1,3 +1,4 @@
+#include "USBAPI.h"
 # include "Arduino.h"
 // this #ifndef stops this file
 // from being included mored than
@@ -8,8 +9,8 @@
 # define BUZZER_PIN 6
 
 // Define frequency of updates for our linesensors, PID and motors.
-# define KINEMATICS_UPDATE  100
-# define BUMP_SENSOR_UPDATE 50
+# define KINEMATICS_UPDATE  10
+# define BUMP_SENSOR_UPDATE 10 // MUST BE SAME VALUE AS UPDATE IN KINEMATICS FILE.
 # define PID_UPDATE         20
 # define MOTOR_UPDATE       30
 
@@ -35,7 +36,9 @@ class FSM_c {
     unsigned long motor_ts = 0;
     unsigned long bump_ts = 0;    
     
-    float impact_average; // impact value is zero initially.
+
+    float impact_max; // record the maximum impact value, while this is being surpassed, continue to reset xpos to zero.
+
     //**** PID variables ****
     // I use PID only for straight line control.
     unsigned long pid_ts = 0; // timestamp
@@ -59,7 +62,6 @@ class FSM_c {
 
       // Update kinematics (has timing built in, we should refactor the motors and line sensors to contain their own timing too.)
       kinematics.update();
-
       // Record the time of this execution of loop for coming calucations ( _ts = "time-stamp" )
       unsigned long current_ts;
       current_ts = millis();
@@ -71,16 +73,18 @@ class FSM_c {
       elapsed_t = current_ts - bump_ts;
       if( elapsed_t > BUMP_SENSOR_UPDATE ) {
       
-        // charge and read bump sensors.
-        // bumpSensor.chargeCapacitors();
-        // bumpSensor.bumpSensorRead();
-        // float impact_current = bumpSensor.displayReadings();
+        //charge and read bump sensors.
+        bumpSensor.chargeCapacitors();
+        bumpSensor.bumpSensorRead();
+        float impact_current = bumpSensor.calculateForce();
+        if (impact_current > impact_max && impact_current > 0.2){ // if you're pushing an object but haven't yet gone anywhere. while impact max is being surpassed, continue to reset xpos to zero.
+          kinematics.X_pos = 0; // know you haven't gone anywhere yet when pushing an object. on the grounds that you start trial in contact with object
+          impact_max = impact_current;
+                
+        }
 
-        // if (impact_current > impact_average && impact_current > 0.1){ // if you're pushing an object but haven't yet gone anywhere.
-        //   kinematics.X_pos = 0; // know you haven't gone anywhere yet when pushing an object.
-        // }
-
-
+        Serial.print("impact value");
+        Serial.println(bumpSensor.force_calc);
         // impact_average = 0.9*impact_average + 0.1*impact_current;
         bump_ts = millis();
       }
@@ -127,8 +131,8 @@ class FSM_c {
       if( elapsed_t > KINEMATICS_UPDATE ) {
 
         // When moving forward in a straight line, distance travelled is just x position.
-        Serial.print("Distance Travelled (cm): ");
-        Serial.println(kinematics.X_pos/10);
+        // Serial.print("Distance Travelled (cm): ");
+        // Serial.println(kinematics.X_pos/10);
         
         if (kinematics.X_pos/10 >= 30){
           // true means you've reached end position and should stop motors and stop running function.
@@ -150,7 +154,6 @@ class FSM_c {
 
         motors.setMotorPower(pwm_left,pwm_right);
         digitalWrite(LED_PIN, false); // light off means not on the line.
-
         // Update the time stamp.
         motor_ts = millis();
 

@@ -1,16 +1,13 @@
 # define LED_PIN 13  // Pin to activate the orange LED
 # define BUZZER_PIN 6 // Pin to activate the buzzer
 // Define our states 
-# define STATE_INITIAL 0
-# define STATE_JOIN_LINE 1
-# define STATE_ON_LINE 2        
-# define STATE_LOST_LINE 3
-# define STATE_RETURN_TO_START 4 
-# define STATE_HOME 5     
+
 
 // Our FSM and Kinematics classes call the remaining classes so don't need to be called again here.
 # include "fsm.h"
 FSM_c fsm;
+
+
 
 // boolean returned by update function, have you reached desired distance yet?
 bool reached_desired_distance = false;
@@ -57,9 +54,8 @@ void loop(){
   if (reached_desired_distance == false){
   reached_desired_distance = fsm.update();
   }
-  bumpSensor.chargeCapacitors();
-  bumpSensor.bumpSensorRead();
-  float impact_current = bumpSensor.displayReadings();
+
+
 }
 
 

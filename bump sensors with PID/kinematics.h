@@ -9,7 +9,7 @@
 #ifndef _KINEMATICS_H
 #define _KINEMATICS_H
 
-# define POSITION_UPDATE 100 // how often we will update the position, testing will show if 100 milliseconds (0.1 seconds) is a sensible frequency.
+# define POSITION_UPDATE 10 // MUST BE SAME VALUE AS BUMP SENSOR UPDATE
 # include "encoders.h"
 # include "motors.h"
 Motors_c motors;
@@ -121,8 +121,10 @@ class Kinematics_c {
 
 
         // Serial.print("\n");
-        // Serial.println("x position is: ");
-        // Serial.print(X_pos);
+        // Serial.print("x position is: ");
+        // Serial.println(X_pos);
+        Serial.print("distance travelled (cm): ");
+      Serial.println(X_pos/10);
 
 
         // Serial.print("\n");

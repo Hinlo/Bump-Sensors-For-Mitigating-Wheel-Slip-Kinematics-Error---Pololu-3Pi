@@ -4,7 +4,7 @@
 
 # define Left_BUMP 4        // Left bump sensor read pin
 # define Right_BUMP 5       // Right bump sensor read pin
-
+# define EMIT_PIN 11     // Shared light sensor / Bump sensor EMIT pin
 
 # define NumberOfSensors 2       // Number of sensors in use
 
@@ -25,7 +25,9 @@ class bumpSensor_c {
 
 
   void initialise(){
-
+    //Emit pins
+    pinMode(EMIT_PIN, OUTPUT);            // Shared EMIT pin set to output
+    digitalWrite(EMIT_PIN, LOW);         // EMIT pin set to LOW to enable the bump sensors
   
 
     //Sensor read pins
@@ -69,8 +71,8 @@ class bumpSensor_c {
       unsigned long elapsed_time;                                         // New long to store the time difference
       elapsed_time = end_time_Bump[which] - start_time;                   // Elapsed time = the end time of the reading - the start time of the reading
       bumpReading[which] = (float)elapsed_time;                           // stores the calculated elapsed time in the bumpReading array as a float
-      //Serial.print("\nbumpReading(i) =");
-      //Serial.print(bumpReading[which]);
+      // Serial.print("\nbumpReading(i) =");
+      // Serial.print(bumpReading[which]);
 
       } //end of for(which = 0; which < NumberOfSensors; which++)
 
@@ -96,7 +98,7 @@ class bumpSensor_c {
 
   }
 
-  float displayReadings(){       // Cycles through the array filled with the sensor readings
+  float calculateForce(){       // Cycles through the array filled with the sensor readings
       // Serial.print("y max: ");
       // Serial.println(1);
       // Serial.print("y min: ");
@@ -107,7 +109,7 @@ class bumpSensor_c {
       // Serial.println(bumpReading[1]);
 
       float bump_average = ((bumpReading[0]+ bumpReading[1])/2) * pow(10, -6) - 6.4*pow(10, -4); // take average and convert to seconds from microseconds. and calibrate to zero by subtracting the average background reading.
-      Serial.println(bumpReading[1]);
+      // Serial.println(bumpReading[1]);
       // model bump sensors as a spring. Therefore, F = -kx.
       // So long as discharge time is proportional to bump sensor displacement,
       // F = -ct, where c is a new constant, t is average discharge time of the two sensors.
@@ -120,8 +122,7 @@ class bumpSensor_c {
       force_calc =  experimental_coefficient * bump_average;
 
 
-      Serial.print("Impact Force: ");
-      Serial.println(force_calc);
+
 
       return(force_calc);
       // next need to 

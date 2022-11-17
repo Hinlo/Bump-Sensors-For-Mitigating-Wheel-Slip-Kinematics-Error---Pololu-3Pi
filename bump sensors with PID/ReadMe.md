@@ -1,3 +1,4 @@
 # Current Issue
 
-Bump sensors taking about 15,000 uS longer to discharge when in this large file... something causing a delay. Need to find out what.
+- Bump sensor not robust against impacts/wheelspin midway along desired distance. 
+- standalone it is overshooting slightly, but consistant.
