@@ -5,3 +5,9 @@
 - Hypothesis should be clear prediction of outcome
 - include link to github page at the end of the abstract
 - include README on github page
+- Aim dont get aims and objectives confused - aim must be specific
+- Ensure literature review is concise and relevant to our experiment
+- Ensure that we are consistant throughout the report
+- aim for 20 experiment trails
+- Only change the variable that we are measuring each trial
+- avoid any ambiquity
