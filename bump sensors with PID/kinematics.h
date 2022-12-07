@@ -62,7 +62,7 @@ class Kinematics_c {
         float r = 16.0; // wheel radius mm.
         float l = 44.6; // dist from centre of robot to centre of wheel mm. Calculated in book.
         float counts_per_rev =  358.3; // counts per revolution of each wheel.
-        float circumference = 100.5309649 + 5.1; // wheel circumference is 32pi mm. Extra 5.1 is correction of error from experimentation; corrects disparity in manufacturing.
+        float circumference = 100.5309649 + 8.3; // wheel circumference is 32pi mm. Extra 8.3 is correction of error from experimentation; corrects disparity in manufacturing.
         float dist_per_count =  circumference/counts_per_rev; // distance travelled per count.
 
         // now get change in counts since last update:
@@ -101,7 +101,7 @@ class Kinematics_c {
 
 
 
-        // printing our counts out - WORKING!!
+        // printing our counts out
         // Serial.println("Right Wheel stats: current, prev, difference ");
         // Serial.print(count_wheel_right);
         // Serial.print(", ");
@@ -123,8 +123,8 @@ class Kinematics_c {
         // Serial.print("\n");
         // Serial.print("x position is: ");
         // Serial.println(X_pos);
-        Serial.print("distance travelled (cm): ");
-      Serial.println(X_pos/10);
+      //   Serial.print("distance travelled (cm): ");
+      // Serial.println(X_pos/10);
 
 
         // Serial.print("\n");

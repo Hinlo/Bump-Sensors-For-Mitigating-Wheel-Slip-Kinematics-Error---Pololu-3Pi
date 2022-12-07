@@ -99,16 +99,9 @@ class bumpSensor_c {
   }
 
   float calculateForce(){       // Cycles through the array filled with the sensor readings
-      // Serial.print("y max: ");
-      // Serial.println(1);
-      // Serial.print("y min: ");
-      // Serial.println(0);
-      // Serial.print("bump sensor left: ");
-      // Serial.println(bumpReading[0]);
-      // Serial.print("bump sensor right: ");
-      // Serial.println(bumpReading[1]);
 
-      float bump_average = ((bumpReading[0]+ bumpReading[1])/2) * pow(10, -6) - 6.4*pow(10, -4); // take average and convert to seconds from microseconds. and calibrate to zero by subtracting the average background reading.
+
+      float bump_average = ((bumpReading[0] + bumpReading[1])/2) * pow(10, -6) - 6.4*pow(10, -4); // take average and convert to seconds from microseconds. and calibrate to zero by subtracting the average background reading.
       // Serial.println(bumpReading[1]);
       // model bump sensors as a spring. Therefore, F = -kx.
       // So long as discharge time is proportional to bump sensor displacement,
@@ -117,7 +110,7 @@ class bumpSensor_c {
       // We can figure out c experimentally by using a known mass that is barely pushed.
       // Force on the mass will be equal and opp (N3), therefore = F.
 
-      // calculation notes in book.
+      // calculation notes in report.
       float experimental_coefficient = 1700; // kgms^-3
       force_calc =  experimental_coefficient * bump_average;
 
@@ -125,14 +118,7 @@ class bumpSensor_c {
 
 
       return(force_calc);
-      // next need to 
-
-    //unsigned long elapsed_time;                         
-    //unsigned long end_time = micros();
-    //elapsed_time = end_time - start_time;
-    //Serial.print(elapsed_time);                         // Prints the total elapsed time
-    //Serial.print("\n");
-  }     //End of displayReadings
+  }     
 
   
 
