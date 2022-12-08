@@ -1,4 +1,5 @@
-# HBump-Sensors-For-Mitigating-Wheel-Slip-Kinematics-Error---Pololu-3PieathRow: Robotic Systems Assessment 2
+# HeathRow: Robotic Systems Assessment 2
+# Bump-Sensors-For-Mitigating-Wheel-Slip-Kinematics-Error---Pololu-3Pi
 This repository contains the documentation and code created by Finlo Heath and Thomas Rowland in the second assessment of the robotic systems module of Bristol University's MSc Robotics. 
 
 ### Hypothesis
